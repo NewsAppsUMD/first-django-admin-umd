@@ -78,6 +78,15 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+# This tutorial uses SQLite, Django's default database.
+# SQLite is perfect for development and learning because:
+# - Zero configuration required
+# - File-based (db.sqlite3) - easy to understand and portable
+# - Great for small-to-medium datasets (like our 270 Academy invitees)
+# - Built into Python - no separate installation needed
+#
+# For production with multiple users or larger datasets, consider PostgreSQL or MySQL
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

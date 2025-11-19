@@ -3,9 +3,15 @@
 First Django admin
 ==================
 
-A step-by-step guide to creating a simple web application that empowers you to enlist reporters in data entry and refinement.
+An **interactive**, step-by-step guide to creating a simple web application that empowers you to enlist reporters in data entry and refinement.
 
 You will learn just enough about the `Django <https://www.djangoproject.com/>`_ framework to design database tables, load in data and create an administration panel for others to improve it. You will not bother with all the other web developer crap.
+
+.. note::
+
+    **This is an interactive tutorial!** You'll be prompted to make design decisions, predict outcomes, and reflect on what you're learning. Don't just copy and paste—think through each step. Your AI assistant (Claude or Copilot) is here to guide you through Socratic questioning and encouragement.
+
+    **Database**: This tutorial uses **SQLite**, Django's default database. It requires zero configuration and is perfect for learning and development.
 
 What you will make
 ------------------
@@ -132,6 +138,14 @@ If you get and error, that means you don't have pipenv installed. You can get it
 Act 1: Hello Django
 -------------------
 
+.. note::
+
+    **🤔 Before you begin**: Pause here and discuss with your AI assistant:
+
+    - Have you worked with Python virtual environments before? What do you think they're for?
+    - What do you know about Django? Have you heard of web frameworks?
+    - Why might we want to isolate project dependencies in a virtual environment?
+
 Start at our first-django-admin directory.
 
 .. code-block:: bash
@@ -181,6 +195,14 @@ There is a lot of `configuration <https://docs.djangoproject.com/en/4.0/intro/tu
 
 The first step is creating your database, which will appear as a new `SQLite <https://en.wikipedia.org/wiki/SQLite>`_ file named ``db.sqlite3``.
 
+.. note::
+
+    **💡 Understanding Check**: Before running the next command, discuss with your AI assistant:
+
+    - What do you think a database migration does?
+    - Why would Django need to "migrate" before we've created any data models?
+    - SQLite is a file-based database. What advantages might this have for development?
+
 To do that, we will start using the ``manage.py`` file created by ``startproject``. It is a utility belt we can use to make Django a wide range of things. The command we want now, ``migrate``, can create database tables.
 
 .. code-block:: bash
@@ -199,8 +221,29 @@ Visit `localhost:8000 <http://localhost:8000>`_ in your browser to see Django in
 
 Congratulations. You've installed Django and have a blank site started up and running. Now the real work begins.
 
+.. note::
+
+    **🎯 Act 1 Reflection**: Before moving on, discuss with your AI assistant:
+
+    - Can you explain the difference between a Django **project** and a Django **app**?
+    - What actually happened when you ran ``python manage.py migrate``?
+    - Why use SQLite for development instead of PostgreSQL or MySQL?
+    - What do you think comes next?
+
 Act 2: Hello models
 -------------------
+
+.. note::
+
+    **🤔 Design Thinking**: Before diving into code, let's think about data design:
+
+    - Look at the CSV file ``academy_invites_2014.csv`` in your project directory (or `on GitHub <https://github.com/dwillis/first-django-admin-umd/blob/master/project/academy_invites_2014.csv>`_)
+    - What fields do you see in the data?
+    - What patterns do you notice about the "Branch" field?
+    - If you were designing a database for this data, what fields would you need?
+    - What fields might reporters need to add for the diversity analysis?
+
+    Discuss your thoughts with your AI assistant before continuing!
 
 Now we create our app. In Django terms, an app is a collection of files that does something, like publish a blog or store public records. A project, like we made above, collects those apps and organizes them into a working website.
 
@@ -283,6 +326,15 @@ Django has some `fancy tricks <https://docs.djangoproject.com/en/4.0/ref/models/
     Watch out. You'll need to carefully indent your code according to Python's very `strict rules <https://www.geeksforgeeks.org/indentation-in-python/>`_ for this to work.
 
 Now let's add a few more fields that we will ask the reporters to figure out and fill in. We'll use another Django trick, the ``choices`` option, to make some of them multiple-choice fields rather than free text.
+
+.. note::
+
+    **⚖️ Design Decision**: Discuss with your AI assistant:
+
+    - For a field like "branch" (Actor, Director, etc.), should we use a CharField with free text or use choices?
+    - What are the trade-offs between allowing free text vs. restricting to choices?
+    - For fields like gender and race, what ethical considerations should we think about when collecting this data?
+    - Should these fields be required or optional? What's the default behavior?
 
 First gender.
 
@@ -412,7 +464,20 @@ Finally, an open-ended text field for reporters to leave notes about their decis
 
 Congratulations, you've written your first model. But it won't be created as a real table in your database until you run what Django calls a "migration." That's just a fancy word for syncing our models with our database.
 
+.. note::
+
+    **💡 Understanding Check**: Before running migrations, discuss:
+
+    - What's the difference between ``null=True`` and ``blank=True``?
+    - Why use CharField with choices instead of storing any text value?
+    - What happens in the SQLite database when you define ``max_length=200``?
+    - Can you explain what this Invite model represents in your own words?
+
 Make sure to save your ``models.py`` file. Then we'll ``manage.py`` to prepare the changes necessary to create your new model.
+
+.. note::
+
+    **🔮 Prediction**: Before running this command, what do you think ``makemigrations`` will do?
 
 .. code-block:: bash
 
@@ -426,8 +491,28 @@ Now run the ``migrate`` command to execute it.
 
 That's it. You've made your database table.
 
+.. note::
+
+    **🎯 Act 2 Reflection**: Take a moment to discuss:
+
+    - What's the difference between ``makemigrations`` and ``migrate``?
+    - How does Django's ORM (Object-Relational Mapper) help you avoid writing SQL?
+    - What would happen if you changed a model field after running migrations?
+    - Look at your SQLite database file (``db.sqlite3``). What do you think is in there now?
+
 Act 3: Hello loader
 -------------------
+
+.. note::
+
+    **🤔 Problem Solving**: Before we start coding, let's think:
+
+    - We need to get 270 records from a CSV file into our SQLite database. What approaches can you think of?
+    - Have you heard of Django management commands? What built-in ones have you used?
+    - Why create a custom command instead of just running a Python script?
+    - What challenges might you face when importing data?
+
+    Brainstorm with your AI assistant!
 
 Our next challenge is to load the source CSV file into the model.
 
@@ -611,8 +696,29 @@ Run it again and you've done it. The CSV is loaded into the database.
 
   $ python manage.py loadacademycsv
 
+.. note::
+
+    **🎯 Act 3 Reflection**: Let's review what you built:
+
+    - Walk through what happens when you run ``python manage.py loadacademycsv`` in your own words
+    - What's the difference between creating objects one-by-one versus ``bulk_create()``?
+    - How would you verify the data loaded correctly into SQLite?
+    - What would happen if you ran this command twice? Would you get duplicate records?
+    - How might you modify this to handle duplicates or errors in the CSV?
+
 Act 4: Hello admin
 ------------------
+
+.. note::
+
+    **🤔 User Experience Design**: Before configuring the admin, think about:
+
+    - You have 270 records in your SQLite database. What would make browsing them easier?
+    - What information is most important to see at a glance?
+    - If you were a reporter using this tool, what features would you want?
+    - What's the difference between viewing data and editing data?
+
+    Discuss with your AI assistant!
 
 One of Django's unique features is that it comes with a custom administration that allows users to view, edit and create records. To see it in action, create a new superuser with permission to edit all records.
 
@@ -652,6 +758,14 @@ Click on "Invite" and you'll see all the records we loaded into the database as 
 .. image:: /_static/hello-admin-list.png
 
 Configure the columns that appear in the list.
+
+.. note::
+
+    **⚖️ Design Decision**: Before adding this code, discuss:
+
+    - Which fields should appear in ``list_display``? Why those?
+    - What fields would be most useful for sorting?
+    - Should all fields be shown, or just the most important ones?
 
 .. code-block:: python
   :emphasize-lines: 4-7
@@ -707,8 +821,27 @@ Reload.
 
 Take a moment to search, filter and sort the list to see how things work. You can even fill in a few records if you want to give that a spin.
 
+.. note::
+
+    **🎯 Act 4 Reflection**: Let's review the Django admin:
+
+    - What's the difference between ``list_display``, ``list_filter``, and ``search_fields``?
+    - Why might you want ``list_editable`` for some fields but not others?
+    - How does Django's admin work "behind the scenes" with your SQLite database?
+    - Try searching for a name. What SQL query do you think Django is running?
+    - What other admin features might be useful for data entry work?
+
 Act 5: Hello newsroom
 ---------------------
+
+.. note::
+
+    **🤔 Multi-User Collaboration**: Before setting up additional users, discuss:
+
+    - Imagine this is a real newsroom with multiple reporters. What permissions should they have?
+    - What's the difference between a **superuser** and a **staff user**?
+    - Should everyone have the ability to delete records? Why or why not?
+    - What could go wrong if you gave all reporters superuser access?
 
 Now you're ready to get other people involved. The first thing to do is create additional users for your colleagues. Return to `localhost:8000/admin/ <http://localhost:8000/admin/>`_ and click the plus button to the right of the "Users" link.
 
@@ -766,9 +899,30 @@ Now visit your colleagues' computers across the newsroom and if the same address
 
 Now as long as the runserver command is up and running back at your computer, your data entry website is online. Congratulations!
 
+.. note::
+
+    **🎯 Act 5 Reflection**: Think about deployment and collaboration:
+
+    - Explain Django's permission system in your own words
+    - Why create staff users instead of giving everyone superuser access?
+    - What are the security considerations when running ``python manage.py runserver 0.0.0.0:8000``?
+    - Why is this approach only suitable for an office network (intranet) and not the public internet?
+    - For a production deployment, what would you need to consider? (HTTPS, proper web server, etc.)
 
 Act 6: Hello homework
 ---------------------
+
+.. note::
+
+    **🤔 Schema Evolution**: Before modifying the model, discuss:
+
+    - The Academy now tracks whether people **accepted or declined** their invitation. How should we store this?
+    - Should this be a Boolean field (True/False), a CharField with choices, or something else?
+    - Should it be required or optional? What's your reasoning?
+    - What happens to the 270 existing records in SQLite when we add a new field?
+    - If we make it required, what default value should we use?
+
+    Think through these trade-offs with your AI assistant!
 
 There are two constants in this kind of work: 1) Your models will change. 2) Reporters need to be told what to do.
 
@@ -910,6 +1064,16 @@ Now you can edit the reporter field directly from the admin list! Select a few r
 
 The admin's ``list_editable`` is a powerful little option that lets you do a lot of work in a little time. When you've assigned enough people, you can turn the feature back off by removing or commenting out the ``list_editable`` line in the admin.
 
+.. note::
+
+    **💡 Understanding Check**: Let's review migrations:
+
+    - What's the difference between ``makemigrations`` and ``migrate``?
+    - Why can't we add a required field without providing a default value?
+    - How does Django track which migrations have been applied to your SQLite database?
+    - Look at the migration files in ``academy/migrations/``. What do you see?
+    - If you were collaborating with others using git, should you commit migration files? Why?
+
 If you want to go further and filter by reporter so, for example, you could see all of Jimmy Olson's assignments at a glance, simply add "reporter" to the ``list_filter`` list.
 
 .. code-block:: python
@@ -926,9 +1090,27 @@ If you want to go further and filter by reporter so, for example, you could see 
 
   admin.site.register(Invite, InviteAdmin)
 
+.. note::
+
+    **🎯 Act 6 Reflection**: Schema evolution and task management:
+
+    - How has your understanding of Django models and migrations evolved?
+    - What's the workflow for changing a model after data already exists?
+    - How does ``list_editable`` improve the data entry workflow?
+    - What other fields might you add to track reporter progress?
 
 Epilogue: Hello dumper
 ----------------------
+
+.. note::
+
+    **🤔 Data Export**: Before building the export command, discuss:
+
+    - Now that reporters have edited the data in SQLite, how might we export it?
+    - Why export to CSV versus JSON or Excel or other formats?
+    - What's the mirror opposite of the loader we built in Act 3?
+    - Which fields should be included in the export?
+    - How should we handle None/null values in the CSV output?
 
 Alright, so let's assume you work with some industrious reporters. They roll through all the records and you've got the gender, race and age entered for everybody in the database.
 
@@ -1005,3 +1187,53 @@ Run our new command once more.
   $ python manage.py dumpacademycsv
 
 Now open up ``dump.csv`` in your base directory and your export should be good to go.
+
+.. note::
+
+    **💡 Final Understanding Check**:
+
+    - Walk through the entire data workflow: CSV → SQLite → Admin → CSV
+    - How would you verify the export matches what's in the database?
+    - What improvements could you make to handle errors or edge cases?
+
+**🎉 Congratulations!** You've completed the interactive Django Admin tutorial!
+
+.. note::
+
+    **🎯 Tutorial Reflection**: Take a moment to reflect on everything you've learned:
+
+    **Core Concepts:**
+    - Django projects vs apps
+    - Models and the ORM (Object-Relational Mapping)
+    - SQLite as a development database
+    - Migrations and schema evolution
+    - Management commands
+    - Django admin customization
+    - User permissions and authentication
+
+    **Big Picture Questions:**
+    - What surprised you most about Django?
+    - Which concept was most challenging? Most interesting?
+    - How would you explain Django's admin to a non-technical colleague?
+    - What would you build next with these skills?
+
+    **Next Steps:**
+    - Try adding a new field to track invitation acceptance
+    - Experiment with other admin options (``list_per_page``, ``ordering``, ``readonly_fields``)
+    - Add data validation to prevent invalid entries
+    - Explore Django's built-in user authentication system
+    - Learn about Django views and templates to create custom pages
+    - Consider deploying to a production environment (Heroku, PythonAnywhere, etc.)
+
+    **Going Further:**
+    - `Official Django Tutorial <https://docs.djangoproject.com/en/4.0/intro/tutorial01/>`_
+    - `Django Girls Tutorial <https://tutorial.djangogirls.org/>`_
+    - `Two Scoops of Django <https://www.feldroy.com/books/two-scoops-of-django-3-x>`_ (book)
+    - `Test-Driven Development with Python <https://www.obeythetestinggoat.com/>`_ (book)
+
+    **Share Your Success!**
+    - What did you build?
+    - What design decisions did you make?
+    - What would you teach someone else who's just starting?
+
+    **Most importantly**: You didn't just follow instructions—you made decisions, solved problems, and built something real. That's what being a developer is all about. Keep building! 🚀
